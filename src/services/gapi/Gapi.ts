@@ -1,3 +1,5 @@
+import TaskList from './TaskList';
+
 // Array of API discovery doc URLs for APIs used by the quickstart.
 const DISCOVERY_DOCS = [
   'https://www.googleapis.com/discovery/v1/apis/tasks/v1/rest',
@@ -7,21 +9,33 @@ const DISCOVERY_DOCS = [
 // separated by spaces.
 const SCOPES = 'https://www.googleapis.com/auth/tasks.readonly';
 
+type AuthHandler = (isAuthenticated: boolean) => void;
+
+interface ConstructorOptions {
+  apiKey: string;
+  clientId: string;
+}
+
 export default class Gapi {
-  constructor(lib, { apiKey, clientId }) {
+  protected readonly apiKey: string;
+  protected readonly clientId: string;
+  protected readonly lib: any;
+
+  protected authListeners: { [name: string]: AuthHandler } = {};
+
+  constructor(lib: any, { apiKey, clientId }: ConstructorOptions) {
     this.apiKey = apiKey;
-    this.authListeners = {};
     this.clientId = clientId;
     this.lib = lib;
 
     this.updateAuth = this.updateAuth.bind(this);
   }
 
-  addAuthListener(name, callback) {
+  addAuthListener(name: string, callback: AuthHandler) {
     this.authListeners[name] = callback;
   }
 
-  removeAuthListener(name) {
+  removeAuthListener(name: string) {
     delete this.authListeners[name];
   }
 
@@ -33,7 +47,7 @@ export default class Gapi {
    * Called when the signed in status changes, to update the UI appropriately.
    * After a sign-in, the API is called.
    */
-  updateAuth(isAuthenticated) {
+  updateAuth(isAuthenticated: boolean) {
     Object.values(this.authListeners).forEach(callback => {
       callback(isAuthenticated);
     });
@@ -78,8 +92,8 @@ export default class Gapi {
   /**
    * Print task lists.
    */
-  getTaskLists() {
+  getTaskLists(): Promise<TaskList[]> {
     return this.lib.client.tasks.tasklists.list()
-      .then(response => response.result.items);
+      .then((response: any) => response.result.items);
   }
 }

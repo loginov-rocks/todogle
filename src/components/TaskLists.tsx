@@ -1,21 +1,27 @@
-import React from 'react';
+import * as React from 'react';
 
 import gapi from '../services/gapi';
+import TaskList from '../services/gapi/TaskList';
 import SignOutButton from './SignOutButton';
 
-export default class TaskLists extends React.Component {
-  constructor(props) {
+interface State {
+  isFetched: boolean,
+  taskLists: TaskList[],
+}
+
+export default class TaskLists extends React.Component<{}, State> {
+  constructor(props: {}) {
     super(props);
 
     this.state = {
       isFetched: false,
-      taskLists: null,
+      taskLists: [],
     };
   }
 
   componentDidMount() {
     gapi.getTaskLists()
-      .then((taskLists) => {
+      .then(taskLists => {
         this.setState({
           isFetched: true,
           taskLists,
@@ -24,14 +30,14 @@ export default class TaskLists extends React.Component {
   }
 
   render() {
-    const { isFetched, tasksLists } = this.state;
+    const { isFetched, taskLists } = this.state;
 
     return (
       <>
         <SignOutButton />
         {isFetched && (
           <pre>
-            {JSON.stringify(tasksLists, null, 2)}
+            {JSON.stringify(taskLists, null, 2)}
           </pre>
         )}
       </>

@@ -1,12 +1,17 @@
-import React from 'react';
+import * as React from 'react';
 
 import Guest from './components/Guest';
 import Loading from './components/Loading';
 import TaskLists from './components/TaskLists';
 import gapi from './services/gapi';
 
-class App extends React.Component {
-  constructor(props) {
+interface State {
+  isAuthenticated: boolean;
+  isLoaded: boolean;
+}
+
+class App extends React.Component<{}, State> {
+  constructor(props: {}) {
     super(props);
 
     this.state = {
@@ -26,7 +31,7 @@ class App extends React.Component {
     gapi.removeAuthListener('root');
   }
 
-  authHandler(isAuthenticated) {
+  authHandler(isAuthenticated: boolean) {
     this.setState({
       isAuthenticated,
       isLoaded: true,
