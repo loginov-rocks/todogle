@@ -1,10 +1,17 @@
-import TaskLink from './TaskLink';
+interface TaskLink {
+  type: string;
+  description: string;
+  link: string;
+}
 
-export default interface Task {
+export interface TaskData {
+  title: string;
+}
+
+export interface TaskResource extends TaskData {
   kind: 'tasks#task';
   id: string;
   etag: string;
-  title: string;
   updated: string;
   selfLink: string;
   parent: string;

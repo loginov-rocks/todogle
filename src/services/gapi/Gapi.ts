@@ -1,4 +1,5 @@
-import TaskList from './TaskList';
+import { TaskListData, TaskListResource } from './TaskListResource';
+import { TaskData, TaskResource } from './TaskResource';
 
 // Array of API discovery doc URLs for APIs used by the quickstart.
 const DISCOVERY_DOCS = [
@@ -7,7 +8,7 @@ const DISCOVERY_DOCS = [
 
 // Authorization scopes required by the API; multiple scopes can be included,
 // separated by spaces.
-const SCOPES = 'https://www.googleapis.com/auth/tasks.readonly';
+const SCOPES = 'https://www.googleapis.com/auth/tasks';
 
 type AuthHandler = (isAuthenticated: boolean) => void;
 
@@ -89,11 +90,37 @@ export default class Gapi {
     });
   }
 
+  createTaskList(data: TaskListData): Promise<TaskListResource> {
+    return this.lib.client.tasks.tasklists.insert(data)
+      .then((response: any) => response.result);
+  }
+
   /**
    * Print task lists.
    */
-  getTaskLists(): Promise<TaskList[]> {
+  getTaskLists(): Promise<TaskListResource[]> {
     return this.lib.client.tasks.tasklists.list()
-      .then((response: any) => response.result.items);
+      .then((response: any) => response.result.items || []);
+  }
+
+  deleteTaskList(taskListId: string): Promise<void> {
+    return this.lib.client.tasks.tasklists.delete({ tasklist: taskListId });
+  }
+
+  createTask(taskListId: string, data: TaskData): Promise<TaskResource> {
+    return this.lib.client.tasks.tasks.insert({ ...data, tasklist: taskListId })
+      .then((response: any) => response.result);
+  }
+
+  getTasks(taskListId: string): Promise<TaskResource[]> {
+    return this.lib.client.tasks.tasks.list({ tasklist: taskListId })
+      .then((response: any) => response.result.items || []);
+  }
+
+  deleteTask(taskListId: string, taskId: string): Promise<void> {
+    return this.lib.client.tasks.tasks.delete({
+      task: taskId,
+      tasklist: taskListId,
+    });
   }
 }

@@ -1,3 +1,3 @@
 import * as React from 'react';
 
-export default () => <div>Loading...</div>;
+export default () => <span>Loading...</span>;

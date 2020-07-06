@@ -8,6 +8,10 @@ export default class Guest extends React.Component {
   }
 
   render() {
-    return <button onClick={this.handleClick}>Sign In</button>;
+    return (
+      <div>
+        <button onClick={this.handleClick}>Sign In</button>
+      </div>
+    );
   }
 }

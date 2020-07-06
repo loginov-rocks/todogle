@@ -1,16 +1,16 @@
 import * as React from 'react';
 
-import Guest from './components/Guest';
-import Loading from './components/Loading';
-import TaskLists from './components/TaskLists';
-import gapi from './services/gapi';
+import Dashboard from './Dashboard';
+import Guest from './Guest';
+import Loading from './Loading';
+import gapi from '../services/gapi';
 
 interface State {
   isAuthenticated: boolean;
   isLoaded: boolean;
 }
 
-class App extends React.Component<{}, State> {
+export default class App extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
 
@@ -42,15 +42,17 @@ class App extends React.Component<{}, State> {
     const { isAuthenticated, isLoaded } = this.state;
 
     if (isLoaded && isAuthenticated) {
-      return <TaskLists />;
+      return <Dashboard />;
     }
 
     if (isLoaded && !isAuthenticated) {
       return <Guest />;
     }
 
-    return <Loading />;
+    return (
+      <div>
+        <Loading />
+      </div>
+    );
   }
 }
-
-export default App;
