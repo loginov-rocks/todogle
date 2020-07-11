@@ -1,12 +1,12 @@
-.container__drawer {
+.drawer {
     flex-shrink: 0;
     width: 200px;
 }
 
-.container__drawer-paper {
+.drawerPaper {
     width: 200px;
 }
 
-.container__main {
+.main {
     flex-grow: 1;
 }

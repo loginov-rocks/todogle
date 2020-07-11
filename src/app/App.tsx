@@ -1,10 +1,11 @@
 import { CssBaseline } from '@material-ui/core';
 import * as React from 'react';
 
-import Dashboard from './Dashboard';
-import Guest from './Guest';
-import Loading from './Loading';
 import gapi from '../services/gapi';
+
+import Container from './container/Container';
+import Guest from './guest/Guest';
+import Splash from './splash/Splash';
 
 interface State {
   isAuthenticated: boolean;
@@ -45,11 +46,11 @@ export default class App extends React.Component<{}, State> {
     let component = null;
 
     if (isLoaded && isAuthenticated) {
-      component = <Dashboard />;
+      component = <Container />;
     } else if (isLoaded && !isAuthenticated) {
       component = <Guest />;
     } else {
-      component = <Loading />;
+      component = <Splash />;
     }
 
     return (

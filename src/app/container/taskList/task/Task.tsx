@@ -1,9 +1,9 @@
 import { Button } from '@material-ui/core';
 import * as React from 'react';
 
-import gapi from '../services/gapi';
-import { TaskListResource } from '../services/gapi/TaskListResource';
-import { TaskResource } from '../services/gapi/TaskResource';
+import gapi from '../../../../services/gapi';
+import { TaskListResource } from '../../../../services/gapi/TaskListResource';
+import { TaskResource } from '../../../../services/gapi/TaskResource';
 
 interface Props {
   onDelete: (id: string) => void;

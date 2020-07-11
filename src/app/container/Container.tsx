@@ -4,12 +4,14 @@ import {
 import { ExitToApp } from '@material-ui/icons';
 import * as React from 'react';
 
-import CreateTaskList from './CreateTaskList';
-import './Dashboard.css';
-import gapi from '../services/gapi';
-import { TaskListResource } from '../services/gapi/TaskListResource';
-import TaskList from './TaskList';
-import TaskLists from './TaskLists';
+import gapi from '../../services/gapi';
+import { TaskListResource } from '../../services/gapi/TaskListResource';
+
+import CreateTaskList from './createTaskList/CreateTaskList';
+import TaskList from './taskList/TaskList';
+import TaskLists from './taskLists/TaskLists';
+
+import styles from './Container.module.css';
 
 interface State {
   areTaskListsLoaded: boolean,
@@ -17,7 +19,7 @@ interface State {
   taskLists: TaskListResource[],
 }
 
-export default class Dashboard extends React.Component<{}, State> {
+export default class Container extends React.Component<{}, State> {
   constructor(props: {}) {
     super(props);
 
@@ -82,9 +84,9 @@ export default class Dashboard extends React.Component<{}, State> {
       <>
         <Drawer
           anchor="left"
-          className="container__drawer"
+          className={styles.drawer}
           classes={{
-            paper: 'container__drawer-paper',
+            paper: styles.drawerPaper,
           }}
           variant="permanent"
         >
@@ -101,7 +103,7 @@ export default class Dashboard extends React.Component<{}, State> {
             </ListItem>
           </List>
         </Drawer>
-        <main className="container__main">
+        <main className={styles.main}>
           {selectedTaskList && (
             <>
               <TaskList

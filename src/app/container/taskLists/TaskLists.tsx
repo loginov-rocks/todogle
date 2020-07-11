@@ -3,7 +3,7 @@ import {
 } from '@material-ui/core';
 import * as React from 'react';
 
-import { TaskListResource } from '../services/gapi/TaskListResource';
+import { TaskListResource } from '../../../services/gapi/TaskListResource';
 
 interface Props {
   areLoaded: boolean;

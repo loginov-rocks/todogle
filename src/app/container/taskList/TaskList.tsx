@@ -1,11 +1,12 @@
 import { Button, CircularProgress } from '@material-ui/core';
 import * as React from 'react';
 
-import CreateTask from './CreateTask';
-import gapi from '../services/gapi';
-import { TaskListResource } from '../services/gapi/TaskListResource';
-import { TaskResource } from '../services/gapi/TaskResource';
-import Task from './Task';
+import gapi from '../../../services/gapi';
+import { TaskListResource } from '../../../services/gapi/TaskListResource';
+import { TaskResource } from '../../../services/gapi/TaskResource';
+
+import CreateTask from './createTask/CreateTask';
+import Task from './task/Task';
 
 interface Props {
   onDelete: (id: string) => void;
