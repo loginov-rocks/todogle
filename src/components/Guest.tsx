@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import * as React from 'react';
 
 import gapi from '../services/gapi';
@@ -9,9 +10,7 @@ export default class Guest extends React.Component {
 
   render() {
     return (
-      <div>
-        <button onClick={this.handleClick}>Sign In</button>
-      </div>
+      <Button onClick={this.handleClick} variant="contained">Sign In</Button>
     );
   }
 }

@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import * as React from 'react';
 
 import gapi from '../services/gapi';
@@ -30,7 +31,7 @@ export default class Task extends React.Component<Props> {
     return (
       <div>
         <i>{task.title}</i>
-        <button onClick={this.handleDelete}>Delete</button>
+        <Button onClick={this.handleDelete} variant="contained">Delete</Button>
       </div>
     );
   }

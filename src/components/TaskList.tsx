@@ -1,7 +1,7 @@
+import { Button, CircularProgress } from '@material-ui/core';
 import * as React from 'react';
 
 import CreateTask from './CreateTask';
-import Loading from './Loading';
 import gapi from '../services/gapi';
 import { TaskListResource } from '../services/gapi/TaskListResource';
 import { TaskResource } from '../services/gapi/TaskResource';
@@ -13,7 +13,7 @@ interface Props {
 }
 
 interface State {
-  isFetched: boolean,
+  areTasksLoaded: boolean,
   tasks: TaskResource[];
 }
 
@@ -22,33 +22,41 @@ export default class TaskList extends React.Component<Props, State> {
     super(props);
 
     this.state = {
-      isFetched: false,
+      areTasksLoaded: false,
       tasks: [],
     };
 
-    this.handleCreate = this.handleCreate.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.handleTaskCreate = this.handleTaskCreate.bind(this);
     this.handleTaskDelete = this.handleTaskDelete.bind(this);
   }
 
   componentDidMount() {
+    this.updateTasks();
+  }
+
+  componentDidUpdate(prevProps: Readonly<Props>) {
+    const { taskList } = this.props;
+
+    if (taskList.id !== prevProps.taskList.id) {
+      this.setState({
+        areTasksLoaded: false,
+      });
+
+      this.updateTasks();
+    }
+  }
+
+  updateTasks() {
     const { taskList } = this.props;
 
     gapi.getTasks(taskList.id)
       .then(tasks => {
         this.setState({
-          isFetched: true,
+          areTasksLoaded: true,
           tasks,
         });
       });
-  }
-
-  handleCreate(task: TaskResource) {
-    const { tasks } = this.state;
-
-    this.setState({
-      tasks: tasks.concat([task]),
-    });
   }
 
   handleDelete() {
@@ -56,6 +64,14 @@ export default class TaskList extends React.Component<Props, State> {
 
     gapi.deleteTaskList(taskList.id)
       .then(() => onDelete(taskList.id));
+  }
+
+  handleTaskCreate(task: TaskResource) {
+    const { tasks } = this.state;
+
+    this.setState({
+      tasks: tasks.concat([task]),
+    });
   }
 
   handleTaskDelete(taskId: string) {
@@ -68,33 +84,32 @@ export default class TaskList extends React.Component<Props, State> {
 
   render() {
     const { taskList } = this.props;
-    const { isFetched, tasks } = this.state;
+    const { areTasksLoaded, tasks } = this.state;
 
     return (
       <>
-        <div>
-          <b>{taskList.title}</b>
-          <button onClick={this.handleDelete}>Delete</button>
-        </div>
+        <b>{taskList.title}</b>
+        <Button onClick={this.handleDelete} variant="contained">Delete</Button>
 
-        {!isFetched && (
-          <div>
-            <Loading />
-          </div>
+        {areTasksLoaded ? (
+          <>
+            <CreateTask
+              onCreate={this.handleTaskCreate}
+              taskListId={taskList.id}
+            />
+
+            {tasks.map(task => (
+              <Task
+                key={task.id}
+                onDelete={this.handleTaskDelete}
+                task={task}
+                taskList={taskList}
+              />
+            ))}
+          </>
+        ) : (
+          <CircularProgress />
         )}
-
-        <div>
-          <CreateTask onCreate={this.handleCreate} taskListId={taskList.id} />
-        </div>
-
-        {isFetched && tasks.map(task => (
-          <Task
-            key={task.id}
-            onDelete={this.handleTaskDelete}
-            task={task}
-            taskList={taskList}
-          />
-        ))}
       </>
     );
   }

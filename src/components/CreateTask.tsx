@@ -1,3 +1,4 @@
+import { Button, TextField } from '@material-ui/core';
 import * as React from 'react';
 
 import gapi from '../services/gapi';
@@ -46,8 +47,8 @@ export default class CreateTask extends React.Component<Props, State> {
 
     return (
       <form onSubmit={this.handleSubmit}>
-        <input onChange={this.handleChange} value={title} />
-        <button type="submit">Create Task</button>
+        <TextField onChange={this.handleChange} required value={title} />
+        <Button type="submit" variant="contained">Create Task</Button>
       </form>
     );
   }

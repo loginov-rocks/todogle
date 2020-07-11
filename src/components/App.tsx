@@ -1,3 +1,4 @@
+import { CssBaseline } from '@material-ui/core';
 import * as React from 'react';
 
 import Dashboard from './Dashboard';
@@ -41,18 +42,21 @@ export default class App extends React.Component<{}, State> {
   render() {
     const { isAuthenticated, isLoaded } = this.state;
 
-    if (isLoaded && isAuthenticated) {
-      return <Dashboard />;
-    }
+    let component = null;
 
-    if (isLoaded && !isAuthenticated) {
-      return <Guest />;
+    if (isLoaded && isAuthenticated) {
+      component = <Dashboard />;
+    } else if (isLoaded && !isAuthenticated) {
+      component = <Guest />;
+    } else {
+      component = <Loading />;
     }
 
     return (
-      <div>
-        <Loading />
-      </div>
+      <>
+        <CssBaseline />
+        {component}
+      </>
     );
   }
 }
