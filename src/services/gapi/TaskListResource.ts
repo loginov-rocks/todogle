@@ -3,7 +3,7 @@ export interface TaskListData {
 }
 
 export interface TaskListResource extends TaskListData {
-  kind: 'tasks#taskLis';
+  kind: string;
   id: string;
   etag: string;
   updated: string;

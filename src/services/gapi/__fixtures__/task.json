@@ -1,0 +1,10 @@
+{
+  "kind": "tasks#task",
+  "id": "SUxBbWpKTkZNd1J3ZGJkSw",
+  "etag": "\"MTA0MzI0OTMyNg\"",
+  "title": "The best task",
+  "updated": "2020-07-11T14:01:56.000Z",
+  "selfLink": "https://www.googleapis.com/tasks/v1/lists/RUVUM3JvcDUxTUNHcDUtdw/tasks/SUxBbWpKTkZNd1J3ZGJkSw",
+  "position": "00000000000000000000",
+  "status": "needsAction"
+}

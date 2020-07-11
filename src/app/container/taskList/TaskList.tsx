@@ -13,105 +13,59 @@ interface Props {
   taskList: TaskListResource;
 }
 
-interface State {
-  areTasksLoaded: boolean,
-  tasks: TaskResource[];
-}
+const TaskList = ({ onDelete, taskList }: Props) => {
+  const [areTasksLoaded, setAreTasksLoaded] = React.useState(false);
+  const [tasks, setTasks] = React.useState<TaskResource[]>([]);
 
-export default class TaskList extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      areTasksLoaded: false,
-      tasks: [],
-    };
-
-    this.handleDelete = this.handleDelete.bind(this);
-    this.handleTaskCreate = this.handleTaskCreate.bind(this);
-    this.handleTaskDelete = this.handleTaskDelete.bind(this);
-  }
-
-  componentDidMount() {
-    this.updateTasks();
-  }
-
-  componentDidUpdate(prevProps: Readonly<Props>) {
-    const { taskList } = this.props;
-
-    if (taskList.id !== prevProps.taskList.id) {
-      this.setState({
-        areTasksLoaded: false,
-      });
-
-      this.updateTasks();
-    }
-  }
-
-  updateTasks() {
-    const { taskList } = this.props;
+  React.useEffect(() => {
+    setAreTasksLoaded(false);
 
     gapi.getTasks(taskList.id)
       .then(tasks => {
-        this.setState({
-          areTasksLoaded: true,
-          tasks,
-        });
+        setAreTasksLoaded(true);
+        setTasks(tasks);
       });
-  }
+  }, [taskList.id]);
 
-  handleDelete() {
-    const { onDelete, taskList } = this.props;
-
+  const handleDelete = () => {
     gapi.deleteTaskList(taskList.id)
       .then(() => onDelete(taskList.id));
-  }
+  };
 
-  handleTaskCreate(task: TaskResource) {
-    const { tasks } = this.state;
+  const handleTaskCreate = (task: TaskResource) => {
+    setTasks(tasks.concat([task]));
+  };
 
-    this.setState({
-      tasks: tasks.concat([task]),
-    });
-  }
+  const handleTaskDelete = (taskId: string) => {
+    setTasks(tasks.filter(task => task.id !== taskId));
+  };
 
-  handleTaskDelete(taskId: string) {
-    const { tasks } = this.state;
+  return (
+    <>
+      <b>{taskList.title}</b>
+      <Button onClick={handleDelete} variant="contained">Delete</Button>
 
-    this.setState({
-      tasks: tasks.filter(task => task.id !== taskId),
-    });
-  }
+      {areTasksLoaded ? (
+        <>
+          <CreateTask
+            onCreate={handleTaskCreate}
+            taskListId={taskList.id}
+          />
 
-  render() {
-    const { taskList } = this.props;
-    const { areTasksLoaded, tasks } = this.state;
-
-    return (
-      <>
-        <b>{taskList.title}</b>
-        <Button onClick={this.handleDelete} variant="contained">Delete</Button>
-
-        {areTasksLoaded ? (
-          <>
-            <CreateTask
-              onCreate={this.handleTaskCreate}
-              taskListId={taskList.id}
+          {tasks.map(task => (
+            <Task
+              key={task.id}
+              onDelete={handleTaskDelete}
+              task={task}
+              taskList={taskList}
             />
+          ))}
+        </>
+      ) : (
+        <CircularProgress />
+      )}
+    </>
+  );
+};
 
-            {tasks.map(task => (
-              <Task
-                key={task.id}
-                onDelete={this.handleTaskDelete}
-                task={task}
-                taskList={taskList}
-              />
-            ))}
-          </>
-        ) : (
-          <CircularProgress />
-        )}
-      </>
-    );
-  }
-}
+export default TaskList;

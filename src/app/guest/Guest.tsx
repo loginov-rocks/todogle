@@ -3,14 +3,12 @@ import * as React from 'react';
 
 import gapi from '../../services/gapi';
 
-export default class Guest extends React.Component {
-  handleClick() {
+const Guest = () => {
+  const handleClick = () => {
     gapi.signIn();
-  }
+  };
 
-  render() {
-    return (
-      <Button onClick={this.handleClick} variant="contained">Sign In</Button>
-    );
-  }
-}
+  return <Button onClick={handleClick} variant="contained">Sign In</Button>;
+};
+
+export default Guest;

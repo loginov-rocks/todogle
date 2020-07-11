@@ -9,18 +9,18 @@ export interface TaskData {
 }
 
 export interface TaskResource extends TaskData {
-  kind: 'tasks#task';
+  kind: string;
   id: string;
   etag: string;
   updated: string;
   selfLink: string;
-  parent: string;
+  parent?: string;
   position: string;
-  notes: string;
+  notes?: string;
   status: string;
-  due: string;
-  completed: string;
-  deleted: boolean;
-  hidden: boolean;
-  links: TaskLink[];
+  due?: string;
+  completed?: string;
+  deleted?: boolean;
+  hidden?: boolean;
+  links?: TaskLink[];
 }

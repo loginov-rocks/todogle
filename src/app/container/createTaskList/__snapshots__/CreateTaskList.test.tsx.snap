@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<form
+  onSubmit={[Function]}
+>
+  <WithStyles(ForwardRef(TextField))
+    onChange={[Function]}
+    required={true}
+    value=""
+  />
+  <WithStyles(ForwardRef(Button))
+    type="submit"
+    variant="contained"
+  >
+    Create Task List
+  </WithStyles(ForwardRef(Button))>
+</form>
+`;

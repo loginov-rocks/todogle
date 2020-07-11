@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<WithStyles(ForwardRef(List))>
+  <WithStyles(ForwardRef(ListItem))
+    button={true}
+    key="RUVUM3JvcDUxTUNHcDUtdw"
+    onClick={[Function]}
+  >
+    <WithStyles(ForwardRef(ListItemText))
+      primary="The best task list"
+    />
+  </WithStyles(ForwardRef(ListItem))>
+</WithStyles(ForwardRef(List))>
+`;

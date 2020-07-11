@@ -1,0 +1,16 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<Fragment>
+  <b>
+    The best task list
+  </b>
+  <WithStyles(ForwardRef(Button))
+    onClick={[Function]}
+    variant="contained"
+  >
+    Delete
+  </WithStyles(ForwardRef(Button))>
+  <WithStyles(ForwardRef(CircularProgress)) />
+</Fragment>
+`;

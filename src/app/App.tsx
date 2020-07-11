@@ -7,57 +7,40 @@ import Container from './container/Container';
 import Guest from './guest/Guest';
 import Splash from './splash/Splash';
 
-interface State {
-  isAuthenticated: boolean;
-  isLoaded: boolean;
-}
+const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [isLoaded, setIsLoaded] = React.useState(false);
 
-export default class App extends React.Component<{}, State> {
-  constructor(props: {}) {
-    super(props);
-
-    this.state = {
-      isAuthenticated: false,
-      isLoaded: false,
+  React.useEffect(() => {
+    const authHandler = (result: boolean) => {
+      setIsAuthenticated(result);
+      setIsLoaded(true);
     };
 
-    this.authHandler = this.authHandler.bind(this);
-  }
-
-  componentDidMount() {
-    gapi.addAuthListener('root', this.authHandler);
+    gapi.addAuthListener('root', authHandler);
     gapi.init();
+
+    return () => {
+      gapi.removeAuthListener('root');
+    };
+  }, []);
+
+  let component = null;
+
+  if (isLoaded && isAuthenticated) {
+    component = <Container />;
+  } else if (isLoaded && !isAuthenticated) {
+    component = <Guest />;
+  } else {
+    component = <Splash />;
   }
 
-  componentWillUnmount() {
-    gapi.removeAuthListener('root');
-  }
+  return (
+    <>
+      <CssBaseline />
+      {component}
+    </>
+  );
+};
 
-  authHandler(isAuthenticated: boolean) {
-    this.setState({
-      isAuthenticated,
-      isLoaded: true,
-    });
-  }
-
-  render() {
-    const { isAuthenticated, isLoaded } = this.state;
-
-    let component = null;
-
-    if (isLoaded && isAuthenticated) {
-      component = <Container />;
-    } else if (isLoaded && !isAuthenticated) {
-      component = <Guest />;
-    } else {
-      component = <Splash />;
-    }
-
-    return (
-      <>
-        <CssBaseline />
-        {component}
-      </>
-    );
-  }
-}
+export default App;

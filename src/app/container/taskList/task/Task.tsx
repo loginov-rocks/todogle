@@ -11,28 +11,18 @@ interface Props {
   taskList: TaskListResource;
 }
 
-export default class Task extends React.Component<Props> {
-  constructor(props: Props) {
-    super(props);
-
-    this.handleDelete = this.handleDelete.bind(this);
-  }
-
-  handleDelete() {
-    const { onDelete, task, taskList } = this.props;
-
+const Task = ({ onDelete, task, taskList }: Props) => {
+  const handleDelete = () => {
     gapi.deleteTask(taskList.id, task.id)
       .then(() => onDelete(task.id));
-  }
+  };
 
-  render() {
-    const { task } = this.props;
+  return (
+    <div>
+      <i>{task.title}</i>
+      <Button onClick={handleDelete} variant="contained">Delete</Button>
+    </div>
+  );
+};
 
-    return (
-      <div>
-        <i>{task.title}</i>
-        <Button onClick={this.handleDelete} variant="contained">Delete</Button>
-      </div>
-    );
-  }
-}
+export default Task;

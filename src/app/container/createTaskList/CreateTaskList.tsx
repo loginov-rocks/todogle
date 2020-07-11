@@ -1,6 +1,8 @@
 import { Button, TextField } from '@material-ui/core';
 import * as React from 'react';
 
+import useInput from '../../../hooks/useInput';
+
 import gapi from '../../../services/gapi';
 import { TaskListResource } from '../../../services/gapi/TaskListResource';
 
@@ -8,47 +10,25 @@ interface Props {
   onCreate: (taskList: TaskListResource) => void;
 }
 
-interface State {
-  title: string;
-}
+const CreateTaskList = ({ onCreate }: Props) => {
+  const { value, bindProps, reset } = useInput('');
 
-export default class CreateTaskList extends React.Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-
-    this.state = {
-      title: '',
-    };
-
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleChange(event: any) {
-    this.setState({ title: event.target.value });
-  }
-
-  handleSubmit(event: any) {
+  const handleSubmit = (event: any) => {
     event.preventDefault();
 
-    const { onCreate } = this.props;
-    const { title } = this.state;
-
-    gapi.createTaskList({ title })
+    gapi.createTaskList({ title: value })
       .then(taskList => {
         onCreate(taskList);
-        this.setState({ title: '' });
+        reset();
       });
-  }
+  };
 
-  render() {
-    const { title } = this.state;
+  return (
+    <form onSubmit={handleSubmit}>
+      <TextField required {...bindProps} />
+      <Button type="submit" variant="contained">Create Task List</Button>
+    </form>
+  );
+};
 
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <TextField onChange={this.handleChange} required value={title} />
-        <Button type="submit" variant="contained">Create Task List</Button>
-      </form>
-    );
-  }
-}
+export default CreateTaskList;

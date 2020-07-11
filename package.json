@@ -23,6 +23,11 @@
       "last 1 safari version"
     ]
   },
+  "jest": {
+    "snapshotSerializers": [
+      "enzyme-to-json/serializer"
+    ]
+  },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
     "@material-ui/icons": "^4.9.1",
@@ -31,13 +36,14 @@
     "react-dom": "^16.13.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
+    "@types/enzyme": "^3.10.5",
     "@types/jest": "^26.0.3",
     "@types/node": "^14.0.14",
     "@types/react": "^16.9.41",
     "@types/react-dom": "^16.9.8",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
+    "enzyme-to-json": "^3.5.0",
     "react-scripts": "^3.4.1",
     "typescript": "^3.9.6"
   }

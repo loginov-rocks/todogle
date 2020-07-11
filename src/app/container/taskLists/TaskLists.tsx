@@ -11,7 +11,7 @@ interface Props {
   taskLists: TaskListResource[];
 }
 
-export default ({ areLoaded, onClick, taskLists }: Props) => {
+const TaskLists = ({ areLoaded, onClick, taskLists }: Props) => {
   if (!areLoaded) {
     return <CircularProgress />;
   }
@@ -29,4 +29,6 @@ export default ({ areLoaded, onClick, taskLists }: Props) => {
       ))}
     </List>
   );
-}
+};
+
+export default TaskLists;

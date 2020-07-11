@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<Fragment>
+  <WithStyles(ForwardRef(Drawer))
+    anchor="left"
+    className="drawer"
+    classes={
+      Object {
+        "paper": "drawerPaper",
+      }
+    }
+    variant="permanent"
+  >
+    <TaskLists
+      areLoaded={false}
+      onClick={[Function]}
+      taskLists={Array []}
+    />
+    <WithStyles(ForwardRef(Divider)) />
+    <WithStyles(ForwardRef(List))>
+      <WithStyles(ForwardRef(ListItem))
+        button={true}
+        onClick={[Function]}
+      >
+        <WithStyles(ForwardRef(ListItemIcon))>
+          <ExitToAppIcon />
+        </WithStyles(ForwardRef(ListItemIcon))>
+        <WithStyles(ForwardRef(ListItemText))
+          primary="Sign Out"
+        />
+      </WithStyles(ForwardRef(ListItem))>
+    </WithStyles(ForwardRef(List))>
+  </WithStyles(ForwardRef(Drawer))>
+  <main
+    className="main"
+  >
+    <CreateTaskList
+      onCreate={[Function]}
+    />
+  </main>
+</Fragment>
+`;
