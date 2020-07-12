@@ -2,7 +2,9 @@
 
 exports[`matches snapshot 1`] = `
 <div>
-  <i>
+  <i
+    onClick={[Function]}
+  >
     The best task
   </i>
   <WithStyles(ForwardRef(Button))

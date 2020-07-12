@@ -1,5 +1,6 @@
 import { CssBaseline } from '@material-ui/core';
 import * as React from 'react';
+import { BrowserRouter } from 'react-router-dom';
 
 import gapi from '../services/gapi';
 
@@ -28,7 +29,11 @@ const App = () => {
   let component = null;
 
   if (isLoaded && isAuthenticated) {
-    component = <Container />;
+    component = (
+      <BrowserRouter>
+        <Container />
+      </BrowserRouter>
+    );
   } else if (isLoaded && !isAuthenticated) {
     component = <Guest />;
   } else {

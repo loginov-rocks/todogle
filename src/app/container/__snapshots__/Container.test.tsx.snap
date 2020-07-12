@@ -12,9 +12,22 @@ exports[`matches snapshot 1`] = `
     }
     variant="permanent"
   >
+    <WithStyles(ForwardRef(List))>
+      <WithStyles(ForwardRef(ListItem))
+        button={true}
+        onClick={[Function]}
+      >
+        <WithStyles(ForwardRef(ListItemIcon))>
+          <InboxIcon />
+        </WithStyles(ForwardRef(ListItemIcon))>
+        <WithStyles(ForwardRef(ListItemText))
+          primary="Inbox"
+        />
+      </WithStyles(ForwardRef(ListItem))>
+    </WithStyles(ForwardRef(List))>
+    <WithStyles(ForwardRef(Divider)) />
     <TaskLists
       areLoaded={false}
-      onClick={[Function]}
       taskLists={Array []}
     />
     <WithStyles(ForwardRef(Divider)) />
@@ -35,9 +48,33 @@ exports[`matches snapshot 1`] = `
   <main
     className="main"
   >
-    <CreateTaskList
-      onCreate={[Function]}
-    />
+    <Switch>
+      <Route
+        path="/create-task-list"
+      >
+        <CreateTaskList
+          onCreate={[Function]}
+        />
+      </Route>
+      <Route
+        path="/task-list/:taskListId/task/:id"
+      >
+        <Task />
+      </Route>
+      <Route
+        path="/task-list/:id"
+      >
+        <TaskList
+          onDelete={[Function]}
+          taskLists={Array []}
+        />
+      </Route>
+      <Route
+        path="/"
+      >
+        <Home />
+      </Route>
+    </Switch>
   </main>
 </Fragment>
 `;

@@ -1,5 +1,6 @@
 import { Button, CircularProgress } from '@material-ui/core';
 import * as React from 'react';
+import { useParams } from 'react-router-dom';
 
 import gapi from '../../../services/gapi';
 import { TaskListResource } from '../../../services/gapi/TaskListResource';
@@ -10,26 +11,27 @@ import Task from './task/Task';
 
 interface Props {
   onDelete: (id: string) => void;
-  taskList: TaskListResource;
+  taskLists: TaskListResource[];
 }
 
-const TaskList = ({ onDelete, taskList }: Props) => {
+const TaskList = ({ onDelete, taskLists }: Props) => {
   const [areTasksLoaded, setAreTasksLoaded] = React.useState(false);
   const [tasks, setTasks] = React.useState<TaskResource[]>([]);
+  const { id } = useParams();
 
   React.useEffect(() => {
     setAreTasksLoaded(false);
 
-    gapi.getTasks(taskList.id)
+    gapi.getTasks(id)
       .then(tasks => {
         setAreTasksLoaded(true);
         setTasks(tasks);
       });
-  }, [taskList.id]);
+  }, [id]);
 
   const handleDelete = () => {
-    gapi.deleteTaskList(taskList.id)
-      .then(() => onDelete(taskList.id));
+    gapi.deleteTaskList(id)
+      .then(() => onDelete(id));
   };
 
   const handleTaskCreate = (task: TaskResource) => {
@@ -39,6 +41,12 @@ const TaskList = ({ onDelete, taskList }: Props) => {
   const handleTaskDelete = (taskId: string) => {
     setTasks(tasks.filter(task => task.id !== taskId));
   };
+
+  const taskList = taskLists.find(taskList => taskList.id === id);
+
+  if (!taskList) {
+    return <strong>Not found</strong>;
+  }
 
   return (
     <>

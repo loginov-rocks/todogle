@@ -1,10 +1,10 @@
 .drawer {
     flex-shrink: 0;
-    width: 200px;
+    width: 256px;
 }
 
 .drawerPaper {
-    width: 200px;
+    width: 256px;
 }
 
 .main {
