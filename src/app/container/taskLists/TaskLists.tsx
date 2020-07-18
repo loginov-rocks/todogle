@@ -6,11 +6,13 @@ import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import * as R from '../../../routes';
-import { getTaskLists, getTaskListsLoaded } from '../../../store/selectors';
+import {
+  getTaskListsArray, getTaskListsLoaded,
+} from '../../../store/selectors';
 
 const TaskLists = () => {
   const history = useHistory();
-  const taskLists = useSelector(getTaskLists);
+  const taskLists = useSelector(getTaskListsArray);
   const taskListsLoaded = useSelector(getTaskListsLoaded);
 
   if (!taskListsLoaded) {
