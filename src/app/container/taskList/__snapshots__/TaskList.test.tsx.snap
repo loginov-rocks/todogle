@@ -33,20 +33,6 @@ exports[`matches snapshot 1`] = `
     }
   }
 >
-  <TaskList
-    onDelete={[Function]}
-    taskLists={
-      Array [
-        Object {
-          "etag": "\\"MTA0MzI0OTM1Nw\\"",
-          "id": "RUVUM3JvcDUxTUNHcDUtdw",
-          "kind": "tasks#taskList",
-          "selfLink": "https://www.googleapis.com/tasks/v1/users/@me/lists/RUVUM3JvcDUxTUNHcDUtdw",
-          "title": "The best task list",
-          "updated": "2020-07-11T14:01:56.445Z",
-        },
-      ]
-    }
-  />
+  <TaskList />
 </Router>
 `;

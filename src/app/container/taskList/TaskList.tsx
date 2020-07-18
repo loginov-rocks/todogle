@@ -1,20 +1,22 @@
 import { Button, CircularProgress } from '@material-ui/core';
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useHistory, useParams } from 'react-router-dom';
 
+import * as R from '../../../routes';
 import gapi from '../../../services/gapi';
-import { TaskListResource } from '../../../services/gapi/TaskListResource';
 import { TaskResource } from '../../../services/gapi/TaskResource';
+import { deleteTaskList } from '../../../store/actions';
+import { useDispatch } from '../../../store/dispatch';
+import { getTaskLists } from '../../../store/selectors';
 
 import CreateTask from './createTask/CreateTask';
 import Task from './task/Task';
 
-interface Props {
-  onDelete: (id: string) => void;
-  taskLists: TaskListResource[];
-}
-
-const TaskList = ({ onDelete, taskLists }: Props) => {
+const TaskList = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const taskLists = useSelector(getTaskLists);
   const [areTasksLoaded, setAreTasksLoaded] = React.useState(false);
   const [tasks, setTasks] = React.useState<TaskResource[]>([]);
   const { id } = useParams();
@@ -29,9 +31,9 @@ const TaskList = ({ onDelete, taskLists }: Props) => {
       });
   }, [id]);
 
-  const handleDelete = () => {
-    gapi.deleteTaskList(id)
-      .then(() => onDelete(id));
+  const handleDelete = async () => {
+    await dispatch(deleteTaskList(id));
+    history.push(R.HOME);
   };
 
   const handleTaskCreate = (task: TaskResource) => {

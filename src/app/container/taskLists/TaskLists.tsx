@@ -2,20 +2,18 @@ import {
   CircularProgress, List, ListItem, ListItemText,
 } from '@material-ui/core';
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 import * as R from '../../../routes';
-import { TaskListResource } from '../../../services/gapi/TaskListResource';
+import { getTaskLists, getTaskListsLoaded } from '../../../store/selectors';
 
-interface Props {
-  areLoaded: boolean;
-  taskLists: TaskListResource[];
-}
-
-const TaskLists = ({ areLoaded, taskLists }: Props) => {
+const TaskLists = () => {
   const history = useHistory();
+  const taskLists = useSelector(getTaskLists);
+  const taskListsLoaded = useSelector(getTaskListsLoaded);
 
-  if (!areLoaded) {
+  if (!taskListsLoaded) {
     return <CircularProgress />;
   }
 

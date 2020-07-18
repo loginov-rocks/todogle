@@ -1,8 +1,10 @@
 import { CssBaseline } from '@material-ui/core';
 import * as React from 'react';
+import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 
 import gapi from '../services/gapi';
+import store from '../store';
 
 import Container from './container/Container';
 import Guest from './guest/Guest';
@@ -30,9 +32,11 @@ const App = () => {
 
   if (isLoaded && isAuthenticated) {
     component = (
-      <BrowserRouter>
-        <Container />
-      </BrowserRouter>
+      <Provider store={store}>
+        <BrowserRouter>
+          <Container />
+        </BrowserRouter>
+      </Provider>
     );
   } else if (isLoaded && !isAuthenticated) {
     component = <Guest />;

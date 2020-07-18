@@ -3,11 +3,14 @@ import {
 } from '@material-ui/core';
 import { Add, ExitToApp, Inbox } from '@material-ui/icons';
 import * as React from 'react';
+import { useSelector } from 'react-redux';
 import { Route, Switch, useHistory } from 'react-router-dom';
 
 import * as R from '../../routes';
 import gapi from '../../services/gapi';
-import { TaskListResource } from '../../services/gapi/TaskListResource';
+import { fetchTaskLists } from '../../store/actions';
+import { useDispatch } from '../../store/dispatch';
+import { getTaskListsLoaded } from '../../store/selectors';
 
 import CreateTaskList from './createTaskList/CreateTaskList';
 import Home from './home/Home';
@@ -18,17 +21,13 @@ import TaskLists from './taskLists/TaskLists';
 import styles from './Container.module.css';
 
 const Container = () => {
-  const [areTaskListsLoaded, setAreTaskListsLoaded] = React.useState(false);
-  const [taskLists, setTaskLists] = React.useState<TaskListResource[]>([]);
+  const dispatch = useDispatch();
   const history = useHistory();
+  const taskListsLoaded = useSelector(getTaskListsLoaded);
 
   React.useEffect(() => {
-    gapi.getTaskLists()
-      .then(taskLists => {
-        setAreTaskListsLoaded(true);
-        setTaskLists(taskLists);
-      });
-  }, []);
+    dispatch(fetchTaskLists());
+  }, [dispatch]);
 
   const handleHomeClick = () => {
     history.push(R.HOME);
@@ -40,17 +39,6 @@ const Container = () => {
 
   const handleSignOutClick = () => {
     gapi.signOut();
-  };
-
-  const handleTaskListCreate = (taskList: TaskListResource) => {
-    setTaskLists(taskLists.concat([taskList]));
-    history.push(R.toTaskList(taskList.id));
-  };
-
-  const handleTaskListDelete = (taskListId: string) => {
-    // TODO: Navigate to another task list if current has been deleted.
-    setTaskLists(taskLists.filter(taskList => taskList.id !== taskListId));
-    handleHomeClick();
   };
 
   return (
@@ -70,8 +58,8 @@ const Container = () => {
           </ListItem>
         </List>
         <Divider />
-        <TaskLists areLoaded={areTaskListsLoaded} taskLists={taskLists} />
-        {areTaskListsLoaded && (
+        <TaskLists />
+        {taskListsLoaded && (
           <List>
             <ListItem button onClick={handleCreateTaskListClick}>
               <ListItemIcon><Add /></ListItemIcon>
@@ -90,13 +78,13 @@ const Container = () => {
       <main className={styles.main}>
         <Switch>
           <Route path={R.CREATE_TASK_LIST}>
-            <CreateTaskList onCreate={handleTaskListCreate} />
+            <CreateTaskList />
           </Route>
           <Route path={R.TASK}>
             <Task />
           </Route>
           <Route path={R.TASK_LIST}>
-            <TaskList taskLists={taskLists} onDelete={handleTaskListDelete} />
+            <TaskList />
           </Route>
           <Route path={R.HOME}>
             <Home />

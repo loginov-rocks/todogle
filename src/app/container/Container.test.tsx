@@ -3,6 +3,11 @@ import * as React from 'react';
 
 import Container from './Container';
 
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+}));
+
 it('matches snapshot', () => {
   const wrapper = shallow(
     <Container />,

@@ -26,10 +26,7 @@ exports[`matches snapshot 1`] = `
       </WithStyles(ForwardRef(ListItem))>
     </WithStyles(ForwardRef(List))>
     <WithStyles(ForwardRef(Divider)) />
-    <TaskLists
-      areLoaded={false}
-      taskLists={Array []}
-    />
+    <TaskLists />
     <WithStyles(ForwardRef(Divider)) />
     <WithStyles(ForwardRef(List))>
       <WithStyles(ForwardRef(ListItem))
@@ -52,9 +49,7 @@ exports[`matches snapshot 1`] = `
       <Route
         path="/create-task-list"
       >
-        <CreateTaskList
-          onCreate={[Function]}
-        />
+        <CreateTaskList />
       </Route>
       <Route
         path="/task-list/:taskListId/task/:id"
@@ -64,10 +59,7 @@ exports[`matches snapshot 1`] = `
       <Route
         path="/task-list/:id"
       >
-        <TaskList
-          onDelete={[Function]}
-          taskLists={Array []}
-        />
+        <TaskList />
       </Route>
       <Route
         path="/"
