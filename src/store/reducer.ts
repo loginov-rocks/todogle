@@ -9,6 +9,8 @@ import * as T from './types';
 const initialState: State = {
   taskLists: {},
   taskListsLoaded: false,
+  tasks: {},
+  tasksLoaded: {},
 };
 
 export default (state = initialState, action: Action) => {
@@ -30,6 +32,40 @@ export default (state = initialState, action: Action) => {
       return {
         ...state,
         taskLists: deleteFromCollection(state.taskLists, action.payload),
+      };
+
+    case T.TASKS_FETCHED:
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [action.payload.taskListId]: convertArrayToCollection(
+            action.payload.tasks, 'id'),
+        },
+        tasksLoaded: {
+          ...state.tasksLoaded,
+          [action.payload.taskListId]: true,
+        },
+      };
+
+    case T.TASK_CREATED:
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [action.payload.taskListId]: addToCollection(
+            state.tasks[action.payload.taskListId], action.payload.task),
+        },
+      };
+
+    case T.TASK_DELETED:
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [action.payload.taskListId]: deleteFromCollection(
+            state.tasks[action.payload.taskListId], action.payload.id),
+        },
       };
 
     default:

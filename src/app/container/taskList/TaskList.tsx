@@ -4,11 +4,11 @@ import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
 
 import * as R from '../../../routes';
-import gapi from '../../../services/gapi';
-import { TaskResource } from '../../../services/gapi/TaskResource';
-import { deleteTaskList } from '../../../store/actions';
+import { deleteTaskList, fetchTasks } from '../../../store/actions';
 import { useDispatch } from '../../../store/dispatch';
-import { getTaskList } from '../../../store/selectors';
+import {
+  getTaskList, getTasksArray, getTasksLoaded,
+} from '../../../store/selectors';
 
 import CreateTask from './createTask/CreateTask';
 import Task from './task/Task';
@@ -18,19 +18,12 @@ const TaskList = () => {
   const history = useHistory();
   const { id } = useParams();
   const taskList = useSelector(getTaskList(id));
-  // TODO: Store task in Redux.
-  const [areTasksLoaded, setAreTasksLoaded] = React.useState(false);
-  const [tasks, setTasks] = React.useState<TaskResource[]>([]);
+  const tasks = useSelector(getTasksArray(id));
+  const tasksLoaded = useSelector(getTasksLoaded(id));
 
   React.useEffect(() => {
-    setAreTasksLoaded(false);
-
-    gapi.getTasks(id)
-      .then(tasks => {
-        setAreTasksLoaded(true);
-        setTasks(tasks);
-      });
-  }, [id]);
+    dispatch(fetchTasks(id));
+  }, [dispatch, id]);
 
   const handleDelete = async () => {
     await dispatch(deleteTaskList(id));
@@ -46,16 +39,12 @@ const TaskList = () => {
       <b>{taskList.title}</b>
       <Button onClick={handleDelete} variant="contained">Delete</Button>
 
-      {areTasksLoaded ? (
+      {tasksLoaded ? (
         <>
-          <CreateTask taskListId={taskList.id} />
+          <CreateTask taskListId={id} />
 
           {tasks.map(task => (
-            <Task
-              key={task.id}
-              task={task}
-              taskListId={taskList.id}
-            />
+            <Task key={task.id} task={task} taskListId={id} />
           ))}
         </>
       ) : (
