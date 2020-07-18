@@ -3,26 +3,25 @@ import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import * as R from '../../../../routes';
-import gapi from '../../../../services/gapi';
-import { TaskListResource } from '../../../../services/gapi/TaskListResource';
 import { TaskResource } from '../../../../services/gapi/TaskResource';
+import { deleteTask } from '../../../../store/actions';
+import { useDispatch } from '../../../../store/dispatch';
 
 interface Props {
-  onDelete: (id: string) => void;
   task: TaskResource;
-  taskList: TaskListResource;
+  taskListId: string;
 }
 
-const Task = ({ onDelete, task, taskList }: Props) => {
+const Task = ({ task, taskListId }: Props) => {
+  const dispatch = useDispatch();
   const history = useHistory();
 
   const handleClick = () => {
-    history.push(R.toTask(taskList.id, task.id));
+    history.push(R.toTask(taskListId, task.id));
   };
 
-  const handleDelete = () => {
-    gapi.deleteTask(taskList.id, task.id)
-      .then(() => onDelete(task.id));
+  const handleDelete = async () => {
+    await dispatch(deleteTask(taskListId, task.id));
   };
 
   return (

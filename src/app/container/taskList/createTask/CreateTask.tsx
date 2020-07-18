@@ -2,26 +2,22 @@ import { Button, TextField } from '@material-ui/core';
 import * as React from 'react';
 
 import useInput from '../../../../hooks/useInput';
-
-import gapi from '../../../../services/gapi';
-import { TaskResource } from '../../../../services/gapi/TaskResource';
+import { createTask } from '../../../../store/actions';
+import { useDispatch } from '../../../../store/dispatch';
 
 interface Props {
-  onCreate: (task: TaskResource) => void;
   taskListId: string;
 }
 
-const CreateTask = ({ onCreate, taskListId }: Props) => {
+const CreateTask = ({ taskListId }: Props) => {
+  const dispatch = useDispatch();
   const { value, bindProps, reset } = useInput('');
 
-  const handleSubmit = (event: any) => {
+  const handleSubmit = async (event: any) => {
     event.preventDefault();
 
-    gapi.createTask(taskListId, { title: value })
-      .then(task => {
-        onCreate(task);
-        reset();
-      });
+    await dispatch(createTask(taskListId, { title: value }));
+    reset();
   };
 
   return (

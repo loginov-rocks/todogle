@@ -3,9 +3,13 @@ import * as React from 'react';
 
 import CreateTask from './CreateTask';
 
+jest.mock('react-redux', () => ({
+  useDispatch: jest.fn(),
+}));
+
 it('matches snapshot', () => {
   const wrapper = shallow(
-    <CreateTask onCreate={() => undefined} taskListId="task-list-id" />,
+    <CreateTask taskListId="task-list-id" />,
   );
 
   expect(wrapper).toMatchSnapshot();

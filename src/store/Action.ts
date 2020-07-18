@@ -1,8 +1,9 @@
 import { TaskListResource } from '../services/gapi/TaskListResource';
+import { TaskResource } from '../services/gapi/TaskResource';
 
 import * as T from './types';
 
-interface TaskListFetched {
+interface TaskListsFetched {
   type: typeof T.TASK_LISTS_FETCHED;
   payload: TaskListResource[];
 }
@@ -17,4 +18,34 @@ interface TaskListDeleted {
   payload: string;
 }
 
-export type Action = TaskListFetched | TaskListCreated | TaskListDeleted;
+interface TasksFetched {
+  type: typeof T.TASKS_FETCHED;
+  payload: {
+    taskListId: string;
+    tasks: TaskResource[];
+  };
+}
+
+interface TaskCreated {
+  type: typeof T.TASK_CREATED;
+  payload: {
+    taskListId: string;
+    task: TaskResource;
+  };
+}
+
+interface TaskDeleted {
+  type: typeof T.TASK_DELETED;
+  payload: {
+    taskListId: string;
+    id: string;
+  }
+}
+
+export type Action =
+  TaskListsFetched
+  | TaskListCreated
+  | TaskListDeleted
+  | TasksFetched
+  | TaskCreated
+  | TaskDeleted;

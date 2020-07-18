@@ -8,7 +8,7 @@ import gapi from '../../../services/gapi';
 import { TaskResource } from '../../../services/gapi/TaskResource';
 import { deleteTaskList } from '../../../store/actions';
 import { useDispatch } from '../../../store/dispatch';
-import { getTaskLists } from '../../../store/selectors';
+import { getTaskList } from '../../../store/selectors';
 
 import CreateTask from './createTask/CreateTask';
 import Task from './task/Task';
@@ -16,10 +16,11 @@ import Task from './task/Task';
 const TaskList = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const taskLists = useSelector(getTaskLists);
+  const { id } = useParams();
+  const taskList = useSelector(getTaskList(id));
+  // TODO: Store task in Redux.
   const [areTasksLoaded, setAreTasksLoaded] = React.useState(false);
   const [tasks, setTasks] = React.useState<TaskResource[]>([]);
-  const { id } = useParams();
 
   React.useEffect(() => {
     setAreTasksLoaded(false);
@@ -36,16 +37,6 @@ const TaskList = () => {
     history.push(R.HOME);
   };
 
-  const handleTaskCreate = (task: TaskResource) => {
-    setTasks(tasks.concat([task]));
-  };
-
-  const handleTaskDelete = (taskId: string) => {
-    setTasks(tasks.filter(task => task.id !== taskId));
-  };
-
-  const taskList = taskLists.find(taskList => taskList.id === id);
-
   if (!taskList) {
     return <strong>Not found</strong>;
   }
@@ -57,17 +48,13 @@ const TaskList = () => {
 
       {areTasksLoaded ? (
         <>
-          <CreateTask
-            onCreate={handleTaskCreate}
-            taskListId={taskList.id}
-          />
+          <CreateTask taskListId={taskList.id} />
 
           {tasks.map(task => (
             <Task
               key={task.id}
-              onDelete={handleTaskDelete}
               task={task}
-              taskList={taskList}
+              taskListId={taskList.id}
             />
           ))}
         </>
