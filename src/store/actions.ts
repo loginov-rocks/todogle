@@ -2,14 +2,16 @@ import { ThunkAction } from 'redux-thunk';
 
 import gapi from '../services/gapi';
 import {
-  TaskListData, TaskListResource,
+  TaskListCreateData, TaskListResource,
 } from '../services/gapi/TaskListResource';
-import { TaskData, TaskResource } from '../services/gapi/TaskResource';
+import {
+  TaskCreateData, TaskResource, TaskUpdateData,
+} from '../services/gapi/TaskResource';
 
 import { Action } from './Action';
 import {
   taskListCreated, taskListDeleted, taskListsFetched,
-  taskCreated, taskDeleted, tasksFetched,
+  taskCreated, taskDeleted, tasksFetched, taskUpdated,
 } from './actionCreators';
 import { State } from './State';
 
@@ -21,7 +23,7 @@ export const fetchTaskLists = (): ThunkAction<Promise<TaskListResource[]>, State
 };
 
 export const createTaskList = (
-  data: TaskListData,
+  data: TaskListCreateData,
 ): ThunkAction<Promise<TaskListResource>, State, unknown, Action> => async dispatch => {
   const taskList = await gapi.createTaskList(data);
   dispatch(taskListCreated(taskList));
@@ -46,10 +48,19 @@ export const fetchTasks = (
 };
 
 export const createTask = (
-  taskListId: string, data: TaskData,
+  taskListId: string, data: TaskCreateData,
 ): ThunkAction<Promise<TaskResource>, State, unknown, Action> => async dispatch => {
   const task = await gapi.createTask(taskListId, data);
   dispatch(taskCreated(taskListId, task));
+
+  return task;
+};
+
+export const updateTask = (
+  taskListId: string, id: string, data: TaskUpdateData,
+): ThunkAction<Promise<TaskResource>, State, unknown, Action> => async dispatch => {
+  const task = await gapi.updateTask(taskListId, id, data);
+  dispatch(taskUpdated(taskListId, task));
 
   return task;
 };

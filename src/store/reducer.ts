@@ -40,7 +40,8 @@ export default (state = initialState, action: Action) => {
         tasks: {
           ...state.tasks,
           [action.payload.taskListId]: convertArrayToCollection(
-            action.payload.tasks, 'id'),
+            action.payload.tasks, 'id',
+          ),
         },
         tasksLoaded: {
           ...state.tasksLoaded,
@@ -54,7 +55,19 @@ export default (state = initialState, action: Action) => {
         tasks: {
           ...state.tasks,
           [action.payload.taskListId]: addToCollection(
-            state.tasks[action.payload.taskListId], action.payload.task),
+            state.tasks[action.payload.taskListId], action.payload.task,
+          ),
+        },
+      };
+
+    case T.TASK_UPDATED:
+      return {
+        ...state,
+        tasks: {
+          ...state.tasks,
+          [action.payload.taskListId]: addToCollection(
+            state.tasks[action.payload.taskListId], action.payload.task,
+          ),
         },
       };
 
@@ -64,7 +77,8 @@ export default (state = initialState, action: Action) => {
         tasks: {
           ...state.tasks,
           [action.payload.taskListId]: deleteFromCollection(
-            state.tasks[action.payload.taskListId], action.payload.id),
+            state.tasks[action.payload.taskListId], action.payload.id,
+          ),
         },
       };
 

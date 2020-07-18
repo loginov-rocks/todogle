@@ -4,4 +4,5 @@ export const TASK_LIST_DELETED = 'TASK_LIST_DELETED';
 
 export const TASKS_FETCHED = 'TASKS_FETCHED';
 export const TASK_CREATED = 'TASK_CREATED';
+export const TASK_UPDATED = 'TASK_UPDATED';
 export const TASK_DELETED = 'TASK_DELETED';

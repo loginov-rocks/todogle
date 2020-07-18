@@ -34,6 +34,14 @@ interface TaskCreated {
   };
 }
 
+interface TaskUpdated {
+  type: typeof T.TASK_UPDATED;
+  payload: {
+    taskListId: string;
+    task: TaskResource;
+  };
+}
+
 interface TaskDeleted {
   type: typeof T.TASK_DELETED;
   payload: {
@@ -48,4 +56,5 @@ export type Action =
   | TaskListDeleted
   | TasksFetched
   | TaskCreated
+  | TaskUpdated
   | TaskDeleted;

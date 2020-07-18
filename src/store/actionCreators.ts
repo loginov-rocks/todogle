@@ -20,7 +20,8 @@ export const taskListDeleted = (id: string): Action => ({
 });
 
 export const tasksFetched = (
-  taskListId: string, tasks: TaskResource[]): Action => ({
+  taskListId: string, tasks: TaskResource[],
+): Action => ({
   payload: {
     taskListId,
     tasks,
@@ -29,12 +30,23 @@ export const tasksFetched = (
 });
 
 export const taskCreated = (
-  taskListId: string, task: TaskResource): Action => ({
+  taskListId: string, task: TaskResource,
+): Action => ({
   payload: {
     taskListId,
     task,
   },
   type: T.TASK_CREATED,
+});
+
+export const taskUpdated = (
+  taskListId: string, task: TaskResource,
+): Action => ({
+  payload: {
+    taskListId,
+    task,
+  },
+  type: T.TASK_UPDATED,
 });
 
 export const taskDeleted = (taskListId: string, id: string): Action => ({

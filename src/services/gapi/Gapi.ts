@@ -1,5 +1,5 @@
-import { TaskListData, TaskListResource } from './TaskListResource';
-import { TaskData, TaskResource } from './TaskResource';
+import { TaskListCreateData, TaskListResource } from './TaskListResource';
+import { TaskCreateData, TaskResource, TaskUpdateData } from './TaskResource';
 
 // Array of API discovery doc URLs for APIs used by the quickstart.
 const DISCOVERY_DOCS = [
@@ -15,6 +15,29 @@ type AuthHandler = (isAuthenticated: boolean) => void;
 interface ConstructorOptions {
   apiKey: string;
   clientId: string;
+}
+
+/**
+ * @see https://developers.google.com/tasks/v1/reference/tasks/list#parameters
+ */
+interface GetTasksOptions {
+  /**
+   * Flag indicating whether completed tasks are returned in the result.
+   * Optional. The default is True.
+   */
+  showCompleted?: boolean;
+
+  /**
+   * Flag indicating whether deleted tasks are returned in the result. Optional.
+   * The default is False.
+   */
+  showDeleted?: boolean;
+
+  /**
+   * Flag indicating whether hidden tasks are returned in the result. Optional.
+   * The default is False.
+   */
+  showHidden?: boolean;
 }
 
 export default class Gapi {
@@ -44,34 +67,20 @@ export default class Gapi {
     return this.lib.auth2.getAuthInstance().isSignedIn.get();
   }
 
-  /**
-   * Called when the signed in status changes, to update the UI appropriately.
-   * After a sign-in, the API is called.
-   */
   updateAuth(isAuthenticated: boolean) {
     Object.values(this.authListeners).forEach(callback => {
       callback(isAuthenticated);
     });
   }
 
-  /**
-   * Sign in the user upon button click.
-   */
   signIn() {
     this.lib.auth2.getAuthInstance().signIn();
   }
 
-  /**
-   * Sign out the user upon button click.
-   */
   signOut() {
     this.lib.auth2.getAuthInstance().signOut();
   }
 
-  /**
-   * On load, called to load the auth2 library and API client library.
-   * Initializes the API client library and sets up sign-in state listeners.
-   */
   init() {
     this.lib.load('client:auth2', async () => {
       await this.lib.client.init({
@@ -89,14 +98,9 @@ export default class Gapi {
     });
   }
 
-  async createTaskList(data: TaskListData): Promise<TaskListResource> {
-    const response = await this.lib.client.tasks.tasklists.insert(data);
-
-    return response.result;
-  }
-
   /**
-   * Print task lists.
+   * Returns all the authenticated user's task lists.
+   * @see https://developers.google.com/tasks/v1/reference/tasklists/list
    */
   async getTaskLists(): Promise<TaskListResource[]> {
     const response = await this.lib.client.tasks.tasklists.list();
@@ -104,11 +108,49 @@ export default class Gapi {
     return response.result.items || [];
   }
 
+  /**
+   * Creates a new task list and adds it to the authenticated user's task lists.
+   * Fails with HTTP code 403 or 429 after reaching the storage limit of 2,000
+   * lists.
+   * @see https://developers.google.com/tasks/v1/reference/tasklists/insert
+   */
+  async createTaskList(data: TaskListCreateData): Promise<TaskListResource> {
+    const response = await this.lib.client.tasks.tasklists.insert(data);
+
+    return response.result;
+  }
+
+  /**
+   * Deletes the authenticated user's specified task list.
+   * @see https://developers.google.com/tasks/v1/reference/tasklists/delete
+   */
   async deleteTaskList(taskListId: string): Promise<void> {
     await this.lib.client.tasks.tasklists.delete({ tasklist: taskListId });
   }
 
-  async createTask(taskListId: string, data: TaskData): Promise<TaskResource> {
+  /**
+   * Returns all tasks in the specified task list.
+   * @see https://developers.google.com/tasks/v1/reference/tasks/list
+   */
+  async getTasks(
+    taskListId: string, options?: GetTasksOptions,
+  ): Promise<TaskResource[]> {
+    const response = await this.lib.client.tasks.tasks.list({
+      ...options,
+      tasklist: taskListId,
+    });
+
+    return response.result.items || [];
+  }
+
+  /**
+   * Creates a new task on the specified task list. Fails with HTTP code 403 or
+   * 429 after reaching the storage limit of 100,000 tasks per account.
+   * @see https://developers.google.com/tasks/v1/reference/tasks/insert
+   */
+  async createTask(
+    taskListId: string, data: TaskCreateData,
+  ): Promise<TaskResource> {
     const response = await this.lib.client.tasks.tasks.insert({
       ...data,
       tasklist: taskListId,
@@ -117,14 +159,26 @@ export default class Gapi {
     return response.result;
   }
 
-  async getTasks(taskListId: string): Promise<TaskResource[]> {
-    const response = await this.lib.client.tasks.tasks.list({
+  /**
+   * Updates the specified task. This method supports patch semantics.
+   * @see https://developers.google.com/tasks/v1/reference/tasks/patch
+   */
+  async updateTask(
+    taskListId: string, id: string, data: TaskUpdateData,
+  ): Promise<TaskResource> {
+    const response = await this.lib.client.tasks.tasks.patch({
+      ...data,
+      task: id,
       tasklist: taskListId,
     });
 
-    return response.result.items || [];
+    return response.result;
   }
 
+  /**
+   * Deletes the specified task from the task list.
+   * @see https://developers.google.com/tasks/v1/reference/tasks/delete
+   */
   async deleteTask(taskListId: string, taskId: string): Promise<void> {
     await this.lib.client.tasks.tasks.delete({
       task: taskId,
