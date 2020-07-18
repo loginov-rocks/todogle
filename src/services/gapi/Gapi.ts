@@ -73,52 +73,60 @@ export default class Gapi {
    * Initializes the API client library and sets up sign-in state listeners.
    */
   init() {
-    this.lib.load('client:auth2', () => {
-      this.lib.client.init({
+    this.lib.load('client:auth2', async () => {
+      await this.lib.client.init({
         apiKey: this.apiKey,
         clientId: this.clientId,
         discoveryDocs: DISCOVERY_DOCS,
         scope: SCOPES,
-      })
-        .then(() => {
-          // Listen for sign-in state changes.
-          this.lib.auth2.getAuthInstance().isSignedIn.listen(this.updateAuth);
+      });
 
-          // Handle the initial sign-in state.
-          this.updateAuth(this.getAuth());
-        });
+      // Listen for sign-in state changes.
+      this.lib.auth2.getAuthInstance().isSignedIn.listen(this.updateAuth);
+
+      // Handle the initial sign-in state.
+      this.updateAuth(this.getAuth());
     });
   }
 
-  createTaskList(data: TaskListData): Promise<TaskListResource> {
-    return this.lib.client.tasks.tasklists.insert(data)
-      .then((response: any) => response.result);
+  async createTaskList(data: TaskListData): Promise<TaskListResource> {
+    const response = await this.lib.client.tasks.tasklists.insert(data);
+
+    return response.result;
   }
 
   /**
    * Print task lists.
    */
-  getTaskLists(): Promise<TaskListResource[]> {
-    return this.lib.client.tasks.tasklists.list()
-      .then((response: any) => response.result.items || []);
+  async getTaskLists(): Promise<TaskListResource[]> {
+    const response = await this.lib.client.tasks.tasklists.list();
+
+    return response.result.items || [];
   }
 
-  deleteTaskList(taskListId: string): Promise<void> {
-    return this.lib.client.tasks.tasklists.delete({ tasklist: taskListId });
+  async deleteTaskList(taskListId: string): Promise<void> {
+    await this.lib.client.tasks.tasklists.delete({ tasklist: taskListId });
   }
 
-  createTask(taskListId: string, data: TaskData): Promise<TaskResource> {
-    return this.lib.client.tasks.tasks.insert({ ...data, tasklist: taskListId })
-      .then((response: any) => response.result);
+  async createTask(taskListId: string, data: TaskData): Promise<TaskResource> {
+    const response = await this.lib.client.tasks.tasks.insert({
+      ...data,
+      tasklist: taskListId,
+    });
+
+    return response.result;
   }
 
-  getTasks(taskListId: string): Promise<TaskResource[]> {
-    return this.lib.client.tasks.tasks.list({ tasklist: taskListId })
-      .then((response: any) => response.result.items || []);
+  async getTasks(taskListId: string): Promise<TaskResource[]> {
+    const response = await this.lib.client.tasks.tasks.list({
+      tasklist: taskListId,
+    });
+
+    return response.result.items || [];
   }
 
-  deleteTask(taskListId: string, taskId: string): Promise<void> {
-    return this.lib.client.tasks.tasks.delete({
+  async deleteTask(taskListId: string, taskId: string): Promise<void> {
+    await this.lib.client.tasks.tasks.delete({
       task: taskId,
       tasklist: taskListId,
     });
