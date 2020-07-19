@@ -34,50 +34,72 @@ exports[`matches snapshot 1`] = `
   <div
     className="wrapper"
   >
-    <WithStyles(ForwardRef(AppBar))
-      position="static"
-    >
-      <WithStyles(ForwardRef(Toolbar))>
-        <WithStyles(ForwardRef(IconButton))
-          className="drawerToggle"
-          color="inherit"
-          edge="start"
-          onClick={[Function]}
-        >
-          <MenuIcon />
-        </WithStyles(ForwardRef(IconButton))>
-        <WithStyles(ForwardRef(Typography))
-          component="h1"
-          variant="h6"
-        >
-          Todogle
-        </WithStyles(ForwardRef(Typography))>
-      </WithStyles(ForwardRef(Toolbar))>
-    </WithStyles(ForwardRef(AppBar))>
-    <main>
-      <Switch>
-        <Route
-          path="/create-task-list"
-        >
-          <CreateTaskList />
-        </Route>
-        <Route
-          path="/task-list/:taskListId/task/:id"
-        >
-          <Task />
-        </Route>
-        <Route
-          path="/task-list/:id"
-        >
-          <TaskList />
-        </Route>
-        <Route
-          path="/"
-        >
-          <Home />
-        </Route>
-      </Switch>
-    </main>
+    <Switch>
+      <Route
+        path="/create-task-list"
+      >
+        <CreateTaskList
+          drawerToggle={
+            <ForwardRef(WithStyles)
+              className="drawerToggle"
+              color="inherit"
+              edge="start"
+              onClick={[Function]}
+            >
+              <UNDEFINED />
+            </ForwardRef(WithStyles)>
+          }
+        />
+      </Route>
+      <Route
+        path="/task-list/:taskListId/task/:id"
+      >
+        <Task
+          drawerToggle={
+            <ForwardRef(WithStyles)
+              className="drawerToggle"
+              color="inherit"
+              edge="start"
+              onClick={[Function]}
+            >
+              <UNDEFINED />
+            </ForwardRef(WithStyles)>
+          }
+        />
+      </Route>
+      <Route
+        path="/task-list/:id"
+      >
+        <TaskList
+          drawerToggle={
+            <ForwardRef(WithStyles)
+              className="drawerToggle"
+              color="inherit"
+              edge="start"
+              onClick={[Function]}
+            >
+              <UNDEFINED />
+            </ForwardRef(WithStyles)>
+          }
+        />
+      </Route>
+      <Route
+        path="/"
+      >
+        <Home
+          drawerToggle={
+            <ForwardRef(WithStyles)
+              className="drawerToggle"
+              color="inherit"
+              edge="start"
+              onClick={[Function]}
+            >
+              <UNDEFINED />
+            </ForwardRef(WithStyles)>
+          }
+        />
+      </Route>
+    </Switch>
   </div>
 </Fragment>
 `;

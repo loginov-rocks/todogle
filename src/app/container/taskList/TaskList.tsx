@@ -1,4 +1,6 @@
-import { Button, CircularProgress } from '@material-ui/core';
+import {
+  AppBar, Button, CircularProgress, Toolbar, Typography,
+} from '@material-ui/core';
 import * as React from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory, useParams } from 'react-router-dom';
@@ -13,7 +15,11 @@ import {
 import CreateTask from './createTask/CreateTask';
 import Task from './task/Task';
 
-const TaskList = () => {
+interface Props {
+  drawerToggle?: JSX.Element;
+}
+
+const TaskList = ({ drawerToggle }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
@@ -36,20 +42,32 @@ const TaskList = () => {
 
   return (
     <>
-      <b>{taskList.title}</b>
-      <Button onClick={handleDelete} variant="contained">Delete</Button>
 
-      {tasksLoaded ? (
-        <>
-          <CreateTask taskListId={id} />
+      <AppBar position="static">
+        <Toolbar>
+          {drawerToggle}
+          <Typography component="h1" variant="h6">
+            {taskList.title}
+          </Typography>
+        </Toolbar>
+      </AppBar>
 
-          {tasks.map(task => (
-            <Task key={task.id} task={task} taskListId={id} />
-          ))}
-        </>
-      ) : (
-        <CircularProgress />
-      )}
+      <main>
+        <Button onClick={handleDelete} variant="contained">Delete</Button>
+
+        {tasksLoaded ? (
+          <>
+            <CreateTask taskListId={id} />
+
+            {tasks.map(task => (
+              <Task key={task.id} task={task} taskListId={id} />
+            ))}
+          </>
+        ) : (
+          <CircularProgress />
+        )}
+      </main>
+
     </>
   );
 };

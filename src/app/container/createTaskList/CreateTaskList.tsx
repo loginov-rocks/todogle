@@ -1,4 +1,6 @@
-import { Button, TextField } from '@material-ui/core';
+import {
+  AppBar, Button, TextField, Toolbar, Typography,
+} from '@material-ui/core';
 import * as React from 'react';
 import { useHistory } from 'react-router-dom';
 
@@ -7,7 +9,11 @@ import * as R from '../../../routes';
 import { createTaskList } from '../../../store/actions';
 import { useDispatch } from '../../../store/dispatch';
 
-const CreateTaskList = () => {
+interface Props {
+  drawerToggle?: JSX.Element;
+}
+
+const CreateTaskList = ({ drawerToggle }: Props) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { value, bindProps, reset } = useInput('');
@@ -21,10 +27,25 @@ const CreateTaskList = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <TextField required {...bindProps} />
-      <Button type="submit" variant="contained">Create Task List</Button>
-    </form>
+    <>
+
+      <AppBar position="static">
+        <Toolbar>
+          {drawerToggle}
+          <Typography component="h1" variant="h6">
+            Create Task List
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      <main>
+        <form onSubmit={handleSubmit}>
+          <TextField required {...bindProps} />
+          <Button type="submit" variant="contained">Create Task List</Button>
+        </form>
+      </main>
+
+    </>
   );
 };
 

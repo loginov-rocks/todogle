@@ -1,6 +1,4 @@
-import {
-  AppBar, Drawer, IconButton, Toolbar, Typography,
-} from '@material-ui/core';
+import { Drawer, IconButton } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import * as React from 'react';
 import { Route, Switch } from 'react-router-dom';
@@ -28,6 +26,17 @@ const Container = () => {
   const handleDrawerToggle = () => {
     setIsOpenOnMobile(!isOpenOnMobile);
   };
+
+  const drawerToggle = (
+    <IconButton
+      className={styles.drawerToggle}
+      color="inherit"
+      edge="start"
+      onClick={handleDrawerToggle}
+    >
+      <Menu />
+    </IconButton>
+  );
 
   return (
     <>
@@ -60,40 +69,20 @@ const Container = () => {
       </nav>
 
       <div className={styles.wrapper}>
-
-        <AppBar position="static">
-          <Toolbar>
-            <IconButton
-              className={styles.drawerToggle}
-              color="inherit"
-              edge="start"
-              onClick={handleDrawerToggle}
-            >
-              <Menu />
-            </IconButton>
-            <Typography component="h1" variant="h6">
-              Todogle
-            </Typography>
-          </Toolbar>
-        </AppBar>
-
-        <main>
-          <Switch>
-            <Route path={R.CREATE_TASK_LIST}>
-              <CreateTaskList />
-            </Route>
-            <Route path={R.TASK}>
-              <Task />
-            </Route>
-            <Route path={R.TASK_LIST}>
-              <TaskList />
-            </Route>
-            <Route path={R.HOME}>
-              <Home />
-            </Route>
-          </Switch>
-        </main>
-
+        <Switch>
+          <Route path={R.CREATE_TASK_LIST}>
+            <CreateTaskList drawerToggle={drawerToggle} />
+          </Route>
+          <Route path={R.TASK}>
+            <Task drawerToggle={drawerToggle} />
+          </Route>
+          <Route path={R.TASK_LIST}>
+            <TaskList drawerToggle={drawerToggle} />
+          </Route>
+          <Route path={R.HOME}>
+            <Home drawerToggle={drawerToggle} />
+          </Route>
+        </Switch>
       </div>
 
     </>

@@ -1,19 +1,35 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-<form
-  onSubmit={[Function]}
->
-  <WithStyles(ForwardRef(TextField))
-    onChange={[Function]}
-    required={true}
-    value=""
-  />
-  <WithStyles(ForwardRef(Button))
-    type="submit"
-    variant="contained"
+<Fragment>
+  <WithStyles(ForwardRef(AppBar))
+    position="static"
   >
-    Create Task List
-  </WithStyles(ForwardRef(Button))>
-</form>
+    <WithStyles(ForwardRef(Toolbar))>
+      <WithStyles(ForwardRef(Typography))
+        component="h1"
+        variant="h6"
+      >
+        Create Task List
+      </WithStyles(ForwardRef(Typography))>
+    </WithStyles(ForwardRef(Toolbar))>
+  </WithStyles(ForwardRef(AppBar))>
+  <main>
+    <form
+      onSubmit={[Function]}
+    >
+      <WithStyles(ForwardRef(TextField))
+        onChange={[Function]}
+        required={true}
+        value=""
+      />
+      <WithStyles(ForwardRef(Button))
+        type="submit"
+        variant="contained"
+      >
+        Create Task List
+      </WithStyles(ForwardRef(Button))>
+    </form>
+  </main>
+</Fragment>
 `;
