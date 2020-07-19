@@ -1,11 +1,11 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
 
-import Splash from './Splash';
+import Logo from './Logo';
 
 it('matches snapshot', () => {
   const wrapper = shallow(
-    <Splash />,
+    <Logo />,
   );
 
   expect(wrapper).toMatchSnapshot();

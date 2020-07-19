@@ -1,12 +1,23 @@
-.drawer {
-    flex-shrink: 0;
-    width: 256px;
-}
-
+.drawerMobile,
+.drawerDesktop,
 .drawerPaper {
-    width: 256px;
+  width: 256px;
 }
 
-.main {
-    flex-grow: 1;
+.drawerDesktop {
+  display: none;
+}
+
+@media (min-width: 600px) {
+  .drawerDesktop {
+    display: block;
+  }
+
+  .drawerToggle {
+    display: none !important;
+  }
+
+  .wrapper {
+    margin-left: 256px;
+  }
 }

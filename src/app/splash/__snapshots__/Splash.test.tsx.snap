@@ -1,3 +1,14 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`matches snapshot 1`] = `<WithStyles(ForwardRef(CircularProgress)) />`;
+exports[`matches snapshot 1`] = `
+<div
+  className="root"
+>
+  <Styled(MuiBox)
+    mb={3}
+  >
+    <Logo />
+  </Styled(MuiBox)>
+  <WithStyles(ForwardRef(CircularProgress)) />
+</div>
+`;

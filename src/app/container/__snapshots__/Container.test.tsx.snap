@@ -2,71 +2,82 @@
 
 exports[`matches snapshot 1`] = `
 <Fragment>
-  <WithStyles(ForwardRef(Drawer))
-    anchor="left"
-    className="drawer"
-    classes={
-      Object {
-        "paper": "drawerPaper",
+  <nav>
+    <WithStyles(ForwardRef(Drawer))
+      className="drawerMobile"
+      classes={
+        Object {
+          "paper": "drawerPaper",
+        }
       }
-    }
-    variant="permanent"
+      onClose={[Function]}
+      open={false}
+      variant="temporary"
+    >
+      <DrawerContent
+        onMenuItemClick={[Function]}
+      />
+    </WithStyles(ForwardRef(Drawer))>
+    <WithStyles(ForwardRef(Drawer))
+      className="drawerDesktop"
+      classes={
+        Object {
+          "paper": "drawerPaper",
+        }
+      }
+      open={true}
+      variant="permanent"
+    >
+      <DrawerContent />
+    </WithStyles(ForwardRef(Drawer))>
+  </nav>
+  <div
+    className="wrapper"
   >
-    <WithStyles(ForwardRef(List))>
-      <WithStyles(ForwardRef(ListItem))
-        button={true}
-        onClick={[Function]}
-      >
-        <WithStyles(ForwardRef(ListItemIcon))>
-          <InboxIcon />
-        </WithStyles(ForwardRef(ListItemIcon))>
-        <WithStyles(ForwardRef(ListItemText))
-          primary="Inbox"
-        />
-      </WithStyles(ForwardRef(ListItem))>
-    </WithStyles(ForwardRef(List))>
-    <WithStyles(ForwardRef(Divider)) />
-    <TaskLists />
-    <WithStyles(ForwardRef(Divider)) />
-    <WithStyles(ForwardRef(List))>
-      <WithStyles(ForwardRef(ListItem))
-        button={true}
-        onClick={[Function]}
-      >
-        <WithStyles(ForwardRef(ListItemIcon))>
-          <ExitToAppIcon />
-        </WithStyles(ForwardRef(ListItemIcon))>
-        <WithStyles(ForwardRef(ListItemText))
-          primary="Sign Out"
-        />
-      </WithStyles(ForwardRef(ListItem))>
-    </WithStyles(ForwardRef(List))>
-  </WithStyles(ForwardRef(Drawer))>
-  <main
-    className="main"
-  >
-    <Switch>
-      <Route
-        path="/create-task-list"
-      >
-        <CreateTaskList />
-      </Route>
-      <Route
-        path="/task-list/:taskListId/task/:id"
-      >
-        <Task />
-      </Route>
-      <Route
-        path="/task-list/:id"
-      >
-        <TaskList />
-      </Route>
-      <Route
-        path="/"
-      >
-        <Home />
-      </Route>
-    </Switch>
-  </main>
+    <WithStyles(ForwardRef(AppBar))
+      position="static"
+    >
+      <WithStyles(ForwardRef(Toolbar))>
+        <WithStyles(ForwardRef(IconButton))
+          className="drawerToggle"
+          color="inherit"
+          edge="start"
+          onClick={[Function]}
+        >
+          <MenuIcon />
+        </WithStyles(ForwardRef(IconButton))>
+        <WithStyles(ForwardRef(Typography))
+          component="h1"
+          variant="h6"
+        >
+          Todogle
+        </WithStyles(ForwardRef(Typography))>
+      </WithStyles(ForwardRef(Toolbar))>
+    </WithStyles(ForwardRef(AppBar))>
+    <main>
+      <Switch>
+        <Route
+          path="/create-task-list"
+        >
+          <CreateTaskList />
+        </Route>
+        <Route
+          path="/task-list/:taskListId/task/:id"
+        >
+          <Task />
+        </Route>
+        <Route
+          path="/task-list/:id"
+        >
+          <TaskList />
+        </Route>
+        <Route
+          path="/"
+        >
+          <Home />
+        </Route>
+      </Switch>
+    </main>
+  </div>
 </Fragment>
 `;

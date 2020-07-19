@@ -1,0 +1,43 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`matches snapshot 1`] = `
+<Fragment>
+  <div
+    className="makeStyles-toolbarMock-1"
+  />
+  <WithStyles(ForwardRef(Divider)) />
+  <WithStyles(ForwardRef(List))
+    dense={true}
+  >
+    <WithStyles(ForwardRef(ListItem))
+      button={true}
+      onClick={[Function]}
+    >
+      <WithStyles(ForwardRef(ListItemIcon))>
+        <InboxIcon />
+      </WithStyles(ForwardRef(ListItemIcon))>
+      <WithStyles(ForwardRef(ListItemText))
+        primary="Inbox"
+      />
+    </WithStyles(ForwardRef(ListItem))>
+  </WithStyles(ForwardRef(List))>
+  <WithStyles(ForwardRef(Divider)) />
+  <WithStyles(ForwardRef(CircularProgress)) />
+  <WithStyles(ForwardRef(Divider)) />
+  <WithStyles(ForwardRef(List))
+    dense={true}
+  >
+    <WithStyles(ForwardRef(ListItem))
+      button={true}
+      onClick={[Function]}
+    >
+      <WithStyles(ForwardRef(ListItemIcon))>
+        <ExitToAppIcon />
+      </WithStyles(ForwardRef(ListItemIcon))>
+      <WithStyles(ForwardRef(ListItemText))
+        primary="Sign Out"
+      />
+    </WithStyles(ForwardRef(ListItem))>
+  </WithStyles(ForwardRef(List))>
+</Fragment>
+`;

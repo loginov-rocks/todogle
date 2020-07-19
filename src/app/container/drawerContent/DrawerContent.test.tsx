@@ -1,7 +1,7 @@
 import { shallow } from 'enzyme';
 import * as React from 'react';
 
-import TaskLists from './TaskLists';
+import DrawerContent from './DrawerContent';
 
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
@@ -9,7 +9,7 @@ jest.mock('react-redux', () => ({
 
 it('matches snapshot', () => {
   const wrapper = shallow(
-    <TaskLists />,
+    <DrawerContent />,
   );
 
   expect(wrapper).toMatchSnapshot();

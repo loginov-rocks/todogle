@@ -5,7 +5,6 @@ import Container from './Container';
 
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
-  useSelector: jest.fn(),
 }));
 
 it('matches snapshot', () => {

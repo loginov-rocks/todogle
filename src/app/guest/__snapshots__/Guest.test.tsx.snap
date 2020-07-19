@@ -1,10 +1,26 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`matches snapshot 1`] = `
-<WithStyles(ForwardRef(Button))
-  onClick={[Function]}
-  variant="contained"
+<div
+  className="root"
 >
-  Sign In
-</WithStyles(ForwardRef(Button))>
+  <Styled(MuiBox)
+    mb={3}
+  >
+    <Logo />
+  </Styled(MuiBox)>
+  <WithStyles(ForwardRef(Button))
+    onClick={[Function]}
+    size="large"
+    startIcon={
+      <img
+        alt="Google"
+        src="google.svg"
+      />
+    }
+    variant="outlined"
+  >
+    Sign In
+  </WithStyles(ForwardRef(Button))>
+</div>
 `;
