@@ -1,14 +1,23 @@
 {
   "name": "@loginov-rocks/todogle",
   "version": "0.1.0",
-  "license": "MIT",
-  "private": true,
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/loginov-rocks/todogle.git"
+  },
+  "author": "Danila Loginov <danila@loginov.rocks> (https://loginov.rocks)",
+  "license": "MIT",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/loginov-rocks/todogle/issues"
+  },
+  "homepage": "https://github.com/loginov-rocks/todogle",
   "eslintConfig": {
     "extends": "react-app"
   },
